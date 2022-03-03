@@ -17,8 +17,6 @@ if get_option('buildtype').startswith('debug')
 endif
 
 
-add_project_arguments(arg, language: 'cpp')
-
 arg_parser = shared_library(
     'arg_parser',
     src,

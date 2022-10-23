@@ -26,12 +26,18 @@ int main(int argc, char* argv[])
 					  .with_short("-n")
 					  .with_long("--number")
 					  .with_value(num)
-					  .with_description("A simple number argument"))
+					  .with_description("A simple number argument")
+					  .on_change([](int& i) {
+						  log("Whoa the int value changed to: ", i);
+					  }))
 		.with_arg(arg_parser::argument<std::string>("str")
 					  .with_short("-s")
 					  .with_long("--string")
 					  .with_description("A simple string argument")
-					  .with_value(str))
+					  .with_value(str)
+					  .on_change([](std::string& str) {
+						  log("Whoa the string value changed to: ", str);
+					  }))
 		.check_for_errors_debug_only()
 		.parse(argc, argv);
 

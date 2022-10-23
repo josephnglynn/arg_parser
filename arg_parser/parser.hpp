@@ -4,6 +4,7 @@
 #include <iostream>
 #include <sstream>
 #include <string>
+#include <vector>
 
 namespace arg_parser
 {
@@ -96,6 +97,12 @@ namespace arg_parser
 			return *this;
 		}
 
+		argument<T>& on_change(const std::function<void(T&)>& handler)
+		{
+			on_change_handlers.push_back(handler);
+			return *this;
+		}
+
 	private:
 		[[nodiscard]] const void* get_arg_value_ptr() const override { return m_value; }
 
@@ -103,15 +110,18 @@ namespace arg_parser
 		{
 			std::istringstream stream(value);
 			stream >> *m_value;
+			for (const auto& handle : on_change_handlers) handle(*m_value);
 		}
 
 		T* m_value;
+		std::vector<std::function<void(T&)>> on_change_handlers;
 	};
 
 	template <>
 	void argument<std::string>::set_value(const char* value) const
 	{
 		*m_value = value;
+		for (const auto& handle : on_change_handlers) handle(*m_value);
 	}
 
 	class parser

@@ -126,7 +126,6 @@ namespace arg_parser
 			std::cout << "\ndescription: " << description;
 
 			int clean[5] = {name.empty(), short_name.empty(), long_name.empty(), description.empty(), value_ptr == nullptr};
-			if (!(clean[0] || clean[1] || clean[2] || clean[3] || clean[4])) continue;
 			if (clean[0]) std::cout << "\nNote: name should not be empty, how will people know what the flag does";
 			if (clean[1] || clean[2]) std::cout << "\nNote: either short_name or long_name should have a value so that this flag is usable";
 			if (clean[3]) std::cout << "\nNote: description should not be empty, unless self explanatory";
